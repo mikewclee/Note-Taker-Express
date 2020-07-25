@@ -1,6 +1,7 @@
 const db = require("../db/db.json");
 const fs = require("fs");
 const path = require('path');
+const util = require("util");
 
 console.log('Current Dir: ' + __dirname);
 
@@ -10,12 +11,34 @@ module.exports = function (app) {
     res.sendFile(path.join(__dirname, "../db/db.json"));
   });
 
-  app.get("/api/notes/:id", function (req, res) {
-    fs.readFile(path.join(__dirname, "../db/db.json"), (err, data) => {
-      if (err) throw err;
-      let savedNotes = JSON.parse(data)
-      res.json(savedNotes[Number(req.params.id)]);
-    });
-  });
-  
+  app.post("/api/notes", function (req, res) {
+    let savedNotes = JSON.parse(fs.readFileSync("./db/db.json", "utf8"));
+    let newNote = req.body;
+    let uniqueID = (savedNotes.length).toString();
+    newNote.id = uniqueID;
+    savedNotes.push(newNote);
+
+    fs.writeFileSync("./db/db.json", JSON.stringify(savedNotes));
+    console.log("Note saved to db.json: ", newNote);
+    res.json(savedNotes);
+  })
+
+  app.delete("/api/notes/:id", function (req, res) {
+    let savedNotes = JSON.parse(fs.readFileSync("./db/db.json", "utf8"));
+    let noteID = req.params.id;
+    let newID = 0;
+    console.log(`Deleting note with ID ${noteID}`);
+    savedNotes = savedNotes.filter(currentNote => {
+      return currentNote.id != noteID;
+    })
+
+    for (currentNote of savedNotes) {
+      currentNote.id = newID.toString();
+      newID++;
+    }
+
+    fs.writeFileSync("./db/db.json", JSON.stringify(savedNotes));
+    res.json(savedNotes);
+  })
+
 }
