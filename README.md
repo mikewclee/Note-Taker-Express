@@ -5,10 +5,9 @@
   ![Badge](https://img.shields.io/badge/Installation-Express_fs_path_util-blue) 
 
   ## Description
-  This application allows user to write, save, and delete personal notes. It uses an express backend and save and retrieve note data from a JSON file.
-  
-  
+  The Note Taker application allows user to write, save, and delete personal notes. It uses an express backend and save and retrieve note data from a JSON file.\ 
   Deployed to heroku: https://young-fjord-20507.herokuapp.com/
+  \
   Watch video link: https://drive.google.com/file/d/1KzQvqSHnlCncnKjNRPIrx6sz3aVXC0GD/view
 
   ![Image Alt Text](/assets/video.gif)
