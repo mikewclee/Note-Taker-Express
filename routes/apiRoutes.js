@@ -13,9 +13,12 @@ module.exports = function (app) {
 
   app.post("/api/notes", function (req, res) {
     let savedNotes = JSON.parse(fs.readFileSync("./db/db.json", "utf8"));
+    console.log(savedNotes);
     let newNote = req.body;
     //using note position in arr length # as unique id
-    let uniqueID = (savedNotes.length).toString();
+    // let uniqueID = (savedNotes.length).toString();
+    let uniqueID = (savedNotes.length);
+    console.log('setting newNotes id to ' + uniqueID);
     newNote.id = uniqueID;
     savedNotes.push(newNote);
 
